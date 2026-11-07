@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALL GAMES TOP-UP CENTER</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ background:#090812;
+ color:white;
+ font-family:Arial,sans-serif;
+ padding-bottom:35px;
+}
+
+header{
+ padding:25px 18px;
+ background:linear-gradient(135deg,#17102f,#24145a,#10152d);
+ border-bottom:1px solid #44327a;
+}
+
+.logo{
+ color:#a78bfa;
+ font-size:12px;
+ letter-spacing:3px;
+ font-weight:bold;
+}
+
+header h1{
+ font-size:27px;
+ margin:12px 0;
+ line-height:1.2;
+}
+
+header h1 span{color:#a78bfa}
+
+header p{
+ color:#b8b4ca;
+ font-size:13px;
+}
+
+.status{
+ display:inline-block;
+ margin-top:15px;
+ padding:7px 12px;
+ border-radius:20px;
+ background:#153a2b;
+ color:#55f0a4;
+ font-size:11px;
+}
+
+.container{
+ max-width:600px;
+ margin:auto;
+ padding:18px;
+}
+
+.section-title{
+ font-size:19px;
+ margin:23px 0 14px;
+}
+
+.section-title span{color:#a78bfa}
+
+.games{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.game{
+ background:#171525;
+ border:1px solid #302a49;
+ padding:17px 5px;
+ text-align:center;
+ border-radius:14px;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.game.active{
+ border:2px solid #a78bfa;
+ background:#251b40;
+}
+
+.game .symbol{
+ font-size:27px;
+ margin-bottom:9px;
+}
+
+.game p{
+ font-size:12px;
+ font-weight:bold;
+}
+
+.game small{
+ color:#aaa;
+ font-size:10px;
+}
+
+.card{
+ background:#151321;
+ border:1px solid #302a43;
+ border-radius:16px;
+ padding:18px;
+ margin-bottom:16px;
+}
+
+label{
+ display:block;
+ font-size:12px;
+ color:#c8c3d5;
+ margin:15px 0 8px;
+}
+
+input,select{
+ width:100%;
+ background:#0c0b15;
+ border:1px solid #39334e;
+ color:white;
+ padding:14px;
+ border-radius:10px;
+ outline:none;
+ font-size:14px;
+}
+
+input:focus,select:focus{
+ border-color:#a78bfa;
+}
+
+#zoneBox{display:none}
+
+.price-box{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-top:16px;
+ background:#211a35;
+ padding:15px;
+ border-radius:11px;
+}
+
+.price-box small{color:#aaa}
+
+.price{
+ color:#55e8a1;
+ font-size:21px;
+ font-weight:bold;
+}
+
+.payment{
+ background:linear-gradient(135deg,#123b2c,#10251e);
+ border:1px solid #24764d;
+}
+
+.payment h3{color:#65e9a4}
+
+.payment p{
+ font-size:13px;
+ color:#d1e9dc;
+ margin-top:12px;
+}
+
+.btn{
+ width:100%;
+ border:0;
+ border-radius:11px;
+ padding:15px;
+ margin-top:15px;
+ font-size:14px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.copy{
+ background:#216b46;
+ color:white;
+}
+
+.order{
+ background:linear-gradient(90deg,#7550dc,#a477ff);
+ color:white;
+ font-size:15px;
+}
+
+.note{
+ font-size:11px;
+ color:#aaa;
+ line-height:1.6;
+ margin-top:12px;
+}
+
+footer{
+ text-align:center;
+ color:#777;
+ font-size:11px;
+ padding:25px;
+ border-top:1px solid #252033;
+}
+
+@media(max-width:350px){
+ header h1{font-size:22px}
+ .game p{font-size:10px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">AGTC • GAMING STORE</div>
+ <h1>ALL GAMES<br><span>TOP-UP CENTER</span></h1>
+ <p>Your gaming top-up destination.</p>
+ <div class="status">● Customer support available on WhatsApp</div>
+</header>
+
+<main class="container">
+
+ <h2 class="section-title">01. <span>Select Game</span></h2>
+
+ <div class="games">
+
+  <div class="game" data-game="Free Fire" onclick="selectGame('Free Fire')">
+   <div class="symbol">🔥</div>
+   <p>FREE FIRE</p>
+   <small>Diamonds</small>
+  </div>
+
+  <div class="game" data-game="BGMI" onclick="selectGame('BGMI')">
+   <div class="symbol">🎯</div>
+   <p>BGMI</p>
+   <small>UC & Packs</small>
+  </div>
+
+  <div class="game" data-game="Mobile Legends" onclick="selectGame('Mobile Legends')">
+   <div class="symbol">⚔️</div>
+   <p>MLBB</p>
+   <small>Diamonds</small>
+  </div>
+
+ </div>
+
+ <h2 class="section-title">02. <span>Select Package</span></h2>
+
+ <div class="card">
+  <label>Selected Game</label>
+  <input id="gameDisplay" readonly placeholder="Choose a game above">
+
+  <label>Available Packages</label>
+  <select id="package">
+   <option value="">Choose a game first</option>
+  </select>
+
+  <div class="price-box">
+   <div>
+    <small>Total Amount</small>
+    <p>Payable price</p>
+   </div>
+   <div class="price" id="price">Rs. 0</div>
+  </div>
+ </div>
+
+ <h2 class="section-title">03. <span>Player Information</span></h2>
+
+ <div class="card">
+  <label>Player ID / UID</label>
+  <input id="playerId" placeholder="Enter your Player ID">
+
+  <div id="zoneBox">
+   <label>Zone ID (MLBB only)</label>
+   <input id="zoneId" placeholder="Enter your Zone ID">
+  </div>
+
+  <p class="note">Double-check your Player ID and Zone ID before placing an order.</p>
+ </div>
+
+ <h2 class="section-title">04. <span>Payment Method</span></h2>
+
+ <div class="card payment">
+  <h3>eSewa Payment</h3>
+  <p>Account Holder: Goma Neupane Niroula</p>
+  <p>eSewa Number: <strong>9826999402</strong></p>
+  <button class="btn copy" onclick="copyEsewa()">COPY eSEWA NUMBER</button>
+  <p class="note">Send your payment and keep the transaction confirmation for verification.</p>
+ </div>
+
+ <h2 class="section-title">05. <span>Place Order</span></h2>
+
+ <div class="card">
+  <p class="note">Review your details and continue to WhatsApp to send your order.</p>
+  <button class="btn order" onclick="submitOrder()">CONTINUE TO WHATSAPP →</button>
+ </div>
+
+</main>
+
+<footer>
+ ALL GAMES TOP-UP CENTER<br>
+ Affordable Gaming • Customer Support
+</footer>
+
+<script>
+
+const packages={
+
+"Free Fire":[
+["25 Diamonds",35],
+["50 Diamonds",65],
+["115 Diamonds",120],
+["240 Diamonds",230],
+["355 Diamonds",340],
+["480 Diamonds",450],
+["610 Diamonds",560],
+["850 Diamonds",790],
+["1090 Diamonds",1020],
+["1240 Diamonds",1120],
+["1850 Diamonds",1670],
+["2530 Diamonds",2220],
+["5060 Diamonds",4430],
+["Weekly Membership",225],
+["Monthly Membership",1080],
+["Weekly Lite",75],
+["Level Up Pass",620]
+],
+
+"BGMI":[
+["First Purchase Pack",215],
+["Upgradable Firearm Materials Pack",520],
+["Mythic Emblem Pack",830],
+["60 UC",175],
+["120 UC",340],
+["180 UC",500],
+["325 UC",820],
+["385 UC",980],
+["660 UC",1630],
+["720 UC",1790],
+["1800 UC",4100],
+["3850 UC",8100],
+["8100 UC",16150],
+["16200 UC",33000]
+],
+
+"Mobile Legends":[
+["Weekly Pass",290],
+["2x Weekly Pass",560],
+["3x Weekly Pass",830],
+["Twilight Pass",1550],
+["55 Diamonds",170],
+["86 Diamonds",230],
+["172 Diamonds",450],
+["257 Diamonds",650],
+["275 Diamonds",630],
+["344 Diamonds",880],
+["429 Diamonds",1070],
+["514 Diamonds",1270],
+["765 Diamonds",1380],
+["1050 Diamonds",2550],
+["1412 Diamonds",3250],
+["2195 Diamonds",5170],
+["3688 Diamonds",8570],
+["5532 Diamonds",15200],
+["9288 Diamonds",22600],
+["18576 Diamonds",38700]
+]
+
+};
+
+let selectedGame="";
+
+function selectGame(game){
+
+ selectedGame=game;
+
+ document.getElementById("gameDisplay").value=game;
+
+ document.querySelectorAll(".game").forEach(card=>{
+  card.classList.toggle("active",card.dataset.game===game);
+ });
+
+ const packageSelect=document.getElementById("package");
+
+ packageSelect.innerHTML='<option value="">Select package</option>';
+
+ packages[game].forEach(item=>{
+  const option=document.createElement("option");
+  option.value=item[0];
+  option.textContent=item[0]+" - Rs. "+item[1];
+  option.dataset.price=item[1];
+  packageSelect.appendChild(option);
+ });
+
+ document.getElementById("price").textContent="Rs. 0";
+
+ document.getElementById("zoneBox").style.display=
+ game==="Mobile Legends"?"block":"none";
+
+ document.getElementById("playerId").value="";
+ document.getElementById("zoneId").value="";
+}
+
+document.getElementById("package").addEventListener("change",function(){
+
+ const selected=this.selectedOptions[0];
+
+ document.getElementById("price").textContent=
+ selected.dataset.price?"Rs. "+selected.dataset.price:"Rs. 0";
+
+});
+
+function copyEsewa(){
+
+ navigator.clipboard.writeText("9826999402")
+ .then(()=>alert("eSewa number copied!"))
+ .catch(()=>alert("Please copy manually: 9826999402"));
+
+}
+
+function submitOrder(){
+
+ const game=selectedGame;
+ const pack=document.getElementById("package").value;
+ const player=document.getElementById("playerId").value.trim();
+ const zone=document.getElementById("zoneId").value.trim();
+ const option=document.getElementById("package").selectedOptions[0];
+ const amount=option?option.dataset.price:"";
+
+ if(!game||!pack||!player){
+  alert("Please select a game, package and enter Player ID.");
+  return;
+ }
+
+ if(game==="Mobile Legends"&&!zone){
+  alert("Please enter your MLBB Zone ID.");
+  return;
+ }
+
+ let message=
+ "Hello ALL GAMES TOP-UP CENTER!%0A"+
+ "Game: "+encodeURIComponent(game)+"%0A"+
+ "Package: "+encodeURIComponent(pack)+"%0A"+
+ "Price: Rs. "+amount+"%0A"+
+ "Player ID: "+encodeURIComponent(player)+"%0A";
+
+ if(game==="Mobile Legends"){
+  message+="Zone ID: "+encodeURIComponent(zone)+"%0A";
+ }
+
+ message+="I want to place an order. I can provide payment confirmation.";
+
+ window.location.href="https://wa.me/9779826999402?text="+message;
+
+}
+
+</script>
+
+</body>
+</html>
